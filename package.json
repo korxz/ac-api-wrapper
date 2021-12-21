@@ -1,0 +1,27 @@
+{
+  "name": "ac-api-wrapper",
+  "version": "1.0.0",
+  "description": "NodeJS wrapper for ActiveCampaign API",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/korxz/ac-api-wrapper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/korxz/ac-api-wrapper/issues"
+  },
+  "homepage": "https://github.com/korxz/ac-api-wrapper#readme",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "dotenv": "^10.0.0"
+  }
+}

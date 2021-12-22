@@ -21,6 +21,22 @@ async() => {
 }();
 ```
 
+**Create new Account example:**
+```js
+const {Account} = require('ac-api-wrapper');
+
+const accountData = {
+    name: 'Example Account',
+    accountUrl: 'https://www.example.com',
+}
+
+async() => {
+    
+    const newAccount = await Account.create(accountData);
+
+}();
+```
+
 ## Services
 
 ### Account

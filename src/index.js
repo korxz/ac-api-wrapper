@@ -10,8 +10,10 @@
 
 const Contact = require('./Contact/contact');
 const Deal = require('./Deal/deal');
+const Account = require('./Account/account');
 
 module.exports = {
+    Account,
     Contact,
     Deal
 };

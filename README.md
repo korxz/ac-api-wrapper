@@ -3,7 +3,7 @@ NodeJS wrapper for ActiveCampaign API
 
 Javascript wrapper for ActiveCampaign API v3.
 
-Create new Contact example:
+**Create new Contact example:**
 ```js
 const { Contact } = require('ac-api-wrapper');
 

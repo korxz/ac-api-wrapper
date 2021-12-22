@@ -47,7 +47,7 @@ const findById = async(id) => {
         const response = await instance.get(uri + id);
 
         if (response.data && response.status === 200) {
-            return response.data
+            return response.data.contact
         }
     } catch (err) {
         if (err.response.status === 404) {
@@ -66,7 +66,7 @@ const findByEmail = async(email) => {
     try {
         const response = await instance.get(uri + '?email=' + email);
 
-        return response.data;
+        return response.data.contact[0];
     } catch (err) {
         if (err.response.status === 400) {
             return err.response.data.errors;
@@ -83,7 +83,7 @@ const findAll = async() => {
     try {
         const response = await instance.get(uri);
 
-        return response.data;
+        return response.data.contacts;
     } catch (err) {
         if (err.response.status === 400) {
             return err.response.data.errors;
@@ -102,7 +102,7 @@ const update = async(id, data) => {
     try {
         const response = await instance.post(uri + id, data);
 
-        return response.data;
+        return response.data.contact;
     } catch (err) {
         if (err.response.status === 404) {
             return err.response.data.errors;
@@ -120,7 +120,9 @@ const destory = async(id) => {
     try {
         const response = await instance.delete(uri + id);
 
-        return 'Contact was successfully deleted.';
+        return {
+            'message': 'Contact was successfully deleted.'
+        };
     } catch (err) {
         if (err.response.status === 404) {
             return err.response.data.errors;

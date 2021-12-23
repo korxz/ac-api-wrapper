@@ -1,5 +1,5 @@
 const instance = require('../Connection');
-const uri = '/api/3/contacts/';
+const uri = '/api/3/contacts';
 /**
  * Create new Conctact
  * 
@@ -44,7 +44,7 @@ const sync = async(data) => {
  */
 const findById = async(id) => {
     try {
-        const response = await instance.get(uri + id);
+        const response = await instance.get(uri + '/' + id);
 
         if (response.data && response.status === 200) {
             return response.data.contact
@@ -100,7 +100,7 @@ const findAll = async() => {
  */
 const update = async(id, data) => {
     try {
-        const response = await instance.post(uri + id, data);
+        const response = await instance.post(uri + '/' + id, data);
 
         return response.data.contact;
     } catch (err) {
@@ -118,11 +118,13 @@ const update = async(id, data) => {
  */
 const destory = async(id) => {
     try {
-        const response = await instance.delete(uri + id);
+        const response = await instance.delete(uri + '/' + id);
 
-        return {
-            'message': 'Contact was successfully deleted.'
-        };
+        if (response && response.status === 200) {
+            return {
+                'message': 'Contact was successfully deleted.'
+            };
+        }
     } catch (err) {
         if (err.response.status === 404) {
             return err.response.data.errors;

@@ -37,9 +37,37 @@ async() => {
 }();
 ```
 
+**Create new Deal example:**
+```js
+const {Deal} = require('ac-api-wrapper');
+
+const dealData = {
+    contact: 1,
+    account: 1,
+    title: 'New deal',
+    value: 100
+}
+
+async() => {
+
+    const newDeal = await Deal.create(dealData);
+    
+}();
+```
+
 ## Services
 
 ### Account
+| Methods  |
+| ------------- |
+| create      |
+| update      |
+| update      |
+| findById |
+| findByAccountName |
+| findAll |
+| destroy |
+| addContactToAccount |
 ### Contact
 
 | Methods  |
@@ -53,6 +81,17 @@ async() => {
 | destroy |
 
 ### Deal
+
+| Methods     |
+| ----------- |
+| create      |
+| update      |
+| findById    |
+| findByTitle |
+| findAll     |
+| destory     |
+| addNote     |
+| updateNote  |
 
 ### List
 

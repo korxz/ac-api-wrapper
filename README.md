@@ -79,6 +79,9 @@ async() => {
 | findByEmail |
 | findAll |
 | destroy |
+| createCustomField |
+| getCustomFieldValue |
+| setCustomFieldValue |
 
 ### Deal
 

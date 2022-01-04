@@ -139,6 +139,85 @@ const destory = async(id) => {
         throw new ActiveCampaignError(err.response.data.errors);
     }
 }
+/**
+ * Create new custom field for Contact model
+ * 
+ * @param {array} data 
+ * @returns object
+ */
+const createCustomField = async(data) => {
+    try {
+        const allowedCustomFieldType = ['dropdown', 'hidden', 'checkbox', 'date', 'text', 'datetime', 'textarea', 'NULL', 'listbox', 'radio'];
+
+        // Check if required fields are passed
+        if (!data.type || !data.title) {
+            throw new ActiveCampaignError('Create custom field for contact failed. Required fields are not set.');
+        }
+
+        if (!allowedCustomFieldType.includes(data.type)) {
+            throw new ActiveCampaignError('Create custom field for contact failed. Type property is not allowed type');
+        }
+
+        const response = await instance.post('/api/3/fields', {
+            'field': {
+                'type': data.type,
+                'title': data.title,
+                'description': data.description ?? '',
+                'visible': data.visible ?? 1,
+                'defval': data.defval ?? ''
+            }
+        });
+
+        if (response && response.status === 201) {
+            return response.data
+        }
+    } catch (err) {
+        throw new ActiveCampaignError(err.response.data.errors);
+    }
+}
+
+/**
+ * Set new value for Contact custom field
+ * @param {integer} contactId 
+ * @param {integer} fieldId 
+ * @param {string} value 
+ * @returns object
+ */
+const setCustomFieldValue = async(contactId, fieldId, value) => {
+    try {
+        const response = await instance.post('/api/3/fieldValues', {
+            'fieldValue': {
+                'contact': contactId,
+                'field': fieldId,
+                'value': value
+            }
+        });
+
+        if (response && response.status === 200) {
+            return response.data.contacts[0];
+        }
+    } catch (err) {
+        throw new ActiveCampaignError(err.response.data.errors);
+    }
+}
+
+/**
+ * Get Contact custom field value by id
+ * 
+ * @param {integer} fieldValueId 
+ * @returns object
+ */
+const getCustomFieldValue = async(fieldValueId) => {
+    try {
+        const response = await instance.get('/api/3/fieldValues/' + fieldValueId);
+
+        if (response && response.status === 200) {
+            return response.data.fieldValue;
+        }
+    } catch (err) {
+        throw new ActiveCampaignError(err.response.data.errors);
+    }
+}
 
 module.exports = {
     create,
@@ -147,5 +226,8 @@ module.exports = {
     findByEmail,
     findAll,
     destory,
-    update
+    update,
+    createCustomField,
+    getCustomFieldValue,
+    setCustomFieldValue
 };

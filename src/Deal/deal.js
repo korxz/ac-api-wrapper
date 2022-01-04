@@ -1,4 +1,5 @@
 const instance = require('../Connection');
+const ActiveCampaignError = require('../utils/ActiveCampaignError');
 const uri = '/api/3/deals';
 
 /**
@@ -17,9 +18,12 @@ const create = async(data) => {
             return response.data.deal
         }
     } catch (err) {
+        /*
         if (err.response.status === 400) {
             return err.response.data.errors;
         }
+        */
+        throw new ActiveCampaignError(err.response.data.errors);
     }
 };
 
@@ -40,9 +44,10 @@ const update = async(id, data) => {
             return response.data.deal
         }
     } catch (err) {
-        if (err.response.status === 400) {
+/*         if (err.response.status === 400) {
             return err.response.data.errors;
-        }
+        } */
+        throw new ActiveCampaignError(err.response.data.errors);
     }
 };
 
@@ -60,7 +65,8 @@ const findById = async(id) => {
             return response.data.deal;
         }
     } catch (err) {
-        return err.response.data.errors;
+        //return err.response.data.errors;
+        throw new ActiveCampaignError(err.response.data.errors);
     }
 };
 
@@ -80,9 +86,10 @@ const findByTitle = async(title) => {
             return response.data.deals
         }
     } catch (err) {
-        if (err.response.status === 400) {
+/*         if (err.response.status === 400) {
             return err.response.data.errors;
-        }
+        } */
+        throw new ActiveCampaignError(err.response.data.errors);
     }
 };
 
@@ -99,9 +106,10 @@ const findAll = async() => {
             return response.data.deals
         }
     } catch (err) {
-        if (err.response.status === 400) {
+/*         if (err.response.status === 400) {
             return err.response.data.errors;
-        }
+        } */
+        throw new ActiveCampaignError(err.response.data.errors);
     }
 };
 
@@ -121,9 +129,10 @@ const destory = async(id) => {
             };
         }
     } catch (err) {
-        if (err.response.status === 400) {
+/*         if (err.response.status === 400) {
             return err.response.data.errors;
-        }
+        } */
+        throw new ActiveCampaignError(err.response.data.errors);
     }
 };
 
@@ -144,7 +153,8 @@ const addNote = async(id, note) => {
             return response.data.deals;
         }
     } catch (err) {
-        return err.response.data.errors;
+        //return err.response.data.errors;
+        throw new ActiveCampaignError(err.response.data.errors);
     }
 };
 
@@ -166,7 +176,8 @@ const updateNote = async(id, noteId, note) => {
             return response.data.deals;
         }
     } catch (err) {
-        return err.response.data.errors;
+        //return err.response.data.errors;
+        throw new ActiveCampaignError(err.response.data.errors);
     }
 };
 

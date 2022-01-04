@@ -1,5 +1,6 @@
 const instance = require('../Connection');
 const uri = '/api/3/accounts';
+const ActiveCampaignError = require('../utils/ActiveCampaignError');
 
 /**
  * Create new Account
@@ -18,9 +19,10 @@ const create = async(data) => {
             return response.data.account;
         }
     } catch (err) {
-        if (err.response.status === 422) {
+/*         if (err.response.status === 422) {
             return err.response.data.errors;
-        }
+        } */
+        throw new ActiveCampaignError(err.response.data.errors);
     }
 };
 
@@ -42,9 +44,10 @@ const update = async(id, data) => {
             return response.data.account;
         }
     } catch (err) {
-        if (err.response.status === 400) {
+/*         if (err.response.status === 400) {
             return err.response.data.errors;
-        }
+        } */
+        throw new ActiveCampaignError(err.response.data.errors);
     }
 };
 
@@ -63,9 +66,10 @@ const findById = async(id) => {
             return response.data.account;
         }
     } catch (err) {
-        if (err.response.status === 404) {
+/*         if (err.response.status === 404) {
             return err.response.data.errors;
-        }
+        } */
+        throw new ActiveCampaignError(err.response.data.errors);
     }
 };
 
@@ -84,9 +88,10 @@ const findByAccountName = async(name) => {
             return response.data.accounts[0];
         }
     } catch (err) {
-                if (err.response.status === 400) {
+/*         if (err.response.status === 400) {
             return err.response.data.errors;
-        }
+        } */
+        throw new ActiveCampaignError(err.response.data.errors);
     }
 };
 
@@ -103,9 +108,10 @@ const findAll = async() => {
             return response.data.accounts;
         }
     } catch (err) {
-        if (err.response.status === 400) {
+/*         if (err.response.status === 400) {
             return err.response.data.errors;
-        }
+        } */
+        throw new ActiveCampaignError(err.response.data.errors);
     }
 };
 
@@ -126,9 +132,10 @@ const destroy = async(id) => {
             };
         }
     } catch (err) {
-        if (err.response.status === 400) {
+/*         if (err.response.status === 400) {
             return err.response.data.errors;
-        }
+        } */
+        throw new ActiveCampaignError(err.response.data.errors);
     }
 };
 
@@ -155,9 +162,10 @@ const addContactToAccount = async(contactId, accountId, jobTitle = '') => {
             return response.data.accountContact;
         }
     } catch (err) {
-        if (err.response.status === 422) {
+/*         if (err.response.status === 422) {
             return err.response.data.errors;
-        }
+        } */
+        throw new ActiveCampaignError(err.response.data.errors);
     }
 };
 

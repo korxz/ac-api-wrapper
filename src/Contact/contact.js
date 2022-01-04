@@ -1,5 +1,7 @@
 const instance = require('../Connection');
 const uri = '/api/3/contacts';
+const ActiveCampaignError = require('../utils/ActiveCampaignError');
+
 /**
  * Create new Conctact
  * 
@@ -16,9 +18,10 @@ const create = async(data) => {
             return response.data.contact;
         }
     } catch (err) {
-        if (err.response.status === 404 || err.response.status === 422) {
+/*         if (err.response.status === 404 || err.response.status === 422) {
             return err.response.data.errors;
-        }
+        } */
+        throw new ActiveCampaignError(err.response.data.errors);
     }
 };
 
@@ -32,7 +35,7 @@ const sync = async(data) => {
     try {
 
     } catch (err) {
-
+        throw new ActiveCampaignError(err.response.data.errors);
     }
 };
 
@@ -50,9 +53,10 @@ const findById = async(id) => {
             return response.data.contact
         }
     } catch (err) {
-        if (err.response.status === 404) {
+/*         if (err.response.status === 404) {
             return err.response.data.errors;
-        }
+        } */
+        throw new ActiveCampaignError(err.response.data.errors);
     }
 };
 
@@ -68,9 +72,10 @@ const findByEmail = async(email) => {
 
         return response.data.contact[0];
     } catch (err) {
-        if (err.response.status === 400) {
+/*         if (err.response.status === 400) {
             return err.response.data.errors;
-        }
+        } */
+        throw new ActiveCampaignError(err.response.data.errors);
     }
 }
 
@@ -85,9 +90,10 @@ const findAll = async() => {
 
         return response.data.contacts;
     } catch (err) {
-        if (err.response.status === 400) {
+/*         if (err.response.status === 400) {
             return err.response.data.errors;
-        }
+        } */
+        throw new ActiveCampaignError(err.response.data.errors);
     }
 };
 
@@ -104,9 +110,10 @@ const update = async(id, data) => {
 
         return response.data.contact;
     } catch (err) {
-        if (err.response.status === 404) {
+/*         if (err.response.status === 404) {
             return err.response.data.errors;
-        }
+        } */
+        throw new ActiveCampaignError(err.response.data.errors);
     }
 }
 
@@ -126,9 +133,10 @@ const destory = async(id) => {
             };
         }
     } catch (err) {
-        if (err.response.status === 404) {
+/*         if (err.response.status === 404) {
             return err.response.data.errors;
-        }
+        } */
+        throw new ActiveCampaignError(err.response.data.errors);
     }
 }
 

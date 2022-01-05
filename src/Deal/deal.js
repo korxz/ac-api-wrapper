@@ -181,6 +181,91 @@ const updateNote = async(id, noteId, note) => {
     }
 };
 
+/**
+ * Create new custom field for deal
+ * 
+ * @param {string} fieldLabel 
+ * @param {string} fieldType 
+ * 
+ * @return {object}
+ */
+const createCustomFiled = async(fieldLabel, fieldType) => {
+    const allowedFieldTypes = ["text", "textarea", "date", "datetime", "dropdown", "multiselect", "radio", "checkbox", "hidden", "currency", "number"];
+
+    if (!allowedFieldTypes.includes(fieldType) || !fieldLabel) {
+        throw new ActiveCampaignError('Deal create custom field failed. Validation of required fields failed.');
+    }
+
+    try {
+        const response = await instance.post('/api/3/dealCustomFieldMeta', {
+            "dealCustomFieldMetum": {
+                "fieldLabel": fieldLabel,
+                "fieldType": fieldType,
+            }
+        });
+
+        if (response && response.status === 200) {
+            return response.data.dealCustomFieldMetum;
+        }
+    } catch (err) {
+        throw new ActiveCampaignError(err.response.data.errors);
+    }
+}
+
+/**
+ * Set deal custom field value
+ * 
+ * @param {integer} dealId 
+ * @param {integer} customFieldId 
+ * @param {string} value 
+ * 
+ * @return {object}
+ */
+const setCustomFieldValue = async(dealId, customFieldId, value) => {
+    if (!dealId || !customFieldId || !value) {
+        throw new ActiveCampaignError('Deal set custom field value error. Validation of required field failed.');
+    }
+
+    try {
+        const response = await instance.post('/api/3/dealCustomFieldData', {
+            "dealCustomFieldData": {
+                "dealId": dealId,
+                "customFieldId": customFieldId,
+                "value": value
+            }
+        });
+
+        if (response && response.status === 200) {
+            return response.data.dealCustomFieldData;
+        }
+    } catch (err) {
+        throw new ActiveCampaignError(err.response.data.errors);
+    }
+}
+
+/**
+ * Get deal custom field value by id
+ * 
+ * @param {integer} id 
+ * 
+ * @returns {object}
+ */
+const getCustomFieldValue = async(id) => {
+    if (!id) {
+        throw new ActiveCampaignError('Deal get custom field value error. Validation of required field failed.');
+    }
+
+    try {
+        const response = await instance.get('/api/3/dealCustomFieldData/' + id);
+
+        if (response && response.status === 200) {
+            return response.data.dealCustomFieldDatum;
+        }
+    } catch (err) {
+        throw new ActiveCampaignError(err.response.data.errors);
+    }
+}
+
 module.exports = {
     create,
     update,
@@ -189,5 +274,8 @@ module.exports = {
     findAll,
     destory,
     addNote,
-    updateNote
+    updateNote,
+    createCustomFiled,
+    setCustomFieldValue,
+    getCustomFieldValue
 };

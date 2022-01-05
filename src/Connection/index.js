@@ -1,7 +1,8 @@
 const config = require('../config/dev.config');
 const axios = require('axios');
 
-const instance = axios.create({
+//const instance = axios.create({
+export default instace = axios({
     baseURL: config.base_url,
     timeout: 10000,
     headers: {
@@ -10,4 +11,4 @@ const instance = axios.create({
     }
 });
 
-module.exports = instance;
+//module.exports = instance;

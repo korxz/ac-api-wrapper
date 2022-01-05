@@ -85,16 +85,19 @@ async() => {
 
 ### Deal
 
-| Methods     |
-| ----------- |
-| create      |
-| update      |
-| findById    |
-| findByTitle |
-| findAll     |
-| destory     |
-| addNote     |
-| updateNote  |
+| Methods              |
+| -------------------- |
+| create               |
+| update               |
+| findById             |
+| findByTitle          |
+| findAll              |
+| destory              |
+| addNote              |
+| updateNote           |
+| createCustomFiled    |
+| setCustomFieldValue  |
+|  getCustomFieldValue |
 
 ### List
 

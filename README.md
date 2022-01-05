@@ -68,6 +68,9 @@ async() => {
 | findAll |
 | destroy |
 | addContactToAccount |
+| createCustomFiled |
+| setCustomFieldValue |
+| getCustomFieldValue |
 ### Contact
 
 | Methods  |

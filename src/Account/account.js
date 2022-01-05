@@ -146,7 +146,7 @@ const destroy = async(id) => {
  * @param {integer} accountId 
  * @param {string} jobTitle
  * 
- * @param {json}
+ * @param {object}
  */
 const addContactToAccount = async(contactId, accountId, jobTitle = '') => {
     try {
@@ -169,6 +169,90 @@ const addContactToAccount = async(contactId, accountId, jobTitle = '') => {
     }
 };
 
+/**
+ * Create new Account custom field
+ * 
+ * @param {string} fieldLabel 
+ * @param {string} fieldType 
+ * 
+ * @returns {object}
+ */
+const createCustomFiled = async(fieldLabel, fieldType) => {
+    const allowedFieldTypes = ["text", "textarea", "date", "datetime", "dropdown", "multiselect", "radio", "checkbox", "hidden", "currency", "number"];
+    if (!fieldLabel || !fieldType || !allowedFieldTypes.includes(fieldType)) {
+        throw new ActiveCampaignError('Account create custom field value error. Validation of required field failed.');
+    }
+
+    try {
+        const response = await instance.post('/api/3/accountCustomFieldMeta', {
+            'accountCustomFieldMetum': {
+                'fieldLabel': fieldLabel,
+                'fieldType': fieldType
+            }
+        });
+
+        if (response && response.status === 200) {
+            return response.data.accountCustomFieldMetum;
+        }
+    } catch (err) {
+        throw new ActiveCampaignError(err.response.data.errors);
+    }
+};
+
+/**
+ * Set account custom field value
+ * 
+ * @param {integer} accountId 
+ * @param {integer} customFieldId 
+ * @param {string} value 
+ * 
+ * @returns {object}
+ */
+const setCustomFieldValue = async(accountId, customFieldId, value) => {
+    if (!accountId || !customFieldId || !value) {
+        throw new ActiveCampaignError('Account set custom field value error. Validation of required field failed.');
+    }
+
+    try {
+        const response = await instance.post('/api/3/accountCustomFieldData', {
+            'accountCustomFieldDatum': {
+                'accountId': accountId,
+                'customFieldId': customFieldId,
+                'value': value
+            }
+        });
+
+        if (response && response.status === 200) {
+            return response.data.accountCustomFieldDatum;
+        }
+    } catch (err) {
+        throw new ActiveCampaignError(err.response.data.errors);
+    }
+};
+
+/**
+ * Get account custom field value by id
+ * 
+ * @param {integer} id 
+ * 
+ * @returns {object}
+ */
+const getCustomFieldValue = async(id) => {
+    if (!id) {
+        throw new ActiveCampaignError('Account get custom field value error. Validation of required field failed.');
+    }
+
+    try {
+        const response = await instance.get('/api/3/accountCustomFieldData/' + id);
+
+        if (response && response.status === 200) {
+            return response.data.accountCustomFieldDatum;
+        }
+    } catch (err) {
+        throw new ActiveCampaignError(err.response.data.errors);
+    }
+};
+
 module.exports = {
     create,
     update,
@@ -176,5 +260,8 @@ module.exports = {
     findByAccountName,
     findAll,
     destroy,
-    addContactToAccount
+    addContactToAccount,
+    createCustomFiled,
+    setCustomFieldValue,
+    getCustomFieldValue
 }

@@ -1,7 +1,8 @@
 # ac-api-wrapper
-NodeJS wrapper for ActiveCampaign API
 
 Javascript wrapper for ActiveCampaign API v3.
+This lib was made for easir use of ActiveCampaign with Javascript. Lib covers the main ActiveCampaign functions such as: Accounts, Customers, Deals and Lists.
+Wrapper method will return a result or throw and ActiveCampaignError exception
 
 **Create new Contact example:**
 ```js
@@ -70,7 +71,12 @@ async() => {
 | addContactToAccount |
 | createCustomFiled |
 | setCustomFieldValue |
-| getCustomFieldValue |
+| getCustomFieldValueById |
+| getAllCustomFieldvalues |
+| createBulkCustomFieldValues |
+| getCustomField |
+| getAllCustomFields |
+| destoryCustomFieldById |
 ### Contact
 
 | Methods  |

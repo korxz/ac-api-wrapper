@@ -200,6 +200,66 @@ const createCustomFiled = async(fieldLabel, fieldType) => {
 };
 
 /**
+ * Get Account custom field by id
+ * @param {integer} id 
+ * 
+ * @returns {object}
+ */
+const getCustomField = async(id) => {
+    if (typeof id != 'number') {
+        throw new ActiveCampaignError('Account get custom field validation failed. Id is not a number');
+    }
+    try {
+        const response = await instance.get('/api/3/accountCustomFieldMeta/' + id);
+
+        if (response && response.status === 200) {
+            return response.data.accountCustomFieldMetum;
+        }
+    } catch (err) {
+        throw new ActiveCampaignError(err.response.data.errors);        
+    }
+}
+
+/**
+ * Get all Account custom fields
+ * @returns {object}
+ */
+const getAllCustomFields = async() => {
+    try {
+        const response = await instance.get('/api/3/accountCustomFieldMeta');
+
+        if (response && response.status === 200) {
+            return response.data.accountCustomFieldMeta;
+        }
+    } catch (err) {
+        throw new ActiveCampaignError(err.response.data.errors);        
+    }
+}
+
+/**
+ * Delete custom field by id
+ * 
+ * @param {integer} id 
+ * 
+ * @returns {object}
+ */
+const destoryCustomFieldById = async(id) => {
+    if (typeof id != 'number') {
+        throw new ActiveCampaignError('Account delete custom field validation failed. Id is not a number');
+    }
+
+    try {
+        const response = await instance.delete('/api/3/accountCustomFieldMeta/' + id);
+
+        if (response && response.status === 200) {
+            return response.data.message;
+        }
+    } catch (err) {
+        throw new ActiveCampaignError(err.response.data.errors);        
+    }
+}
+
+/**
  * Set account custom field value
  * 
  * @param {integer} accountId 
@@ -231,13 +291,40 @@ const setCustomFieldValue = async(accountId, customFieldId, value) => {
 };
 
 /**
+ * Create Account custom field values in bulk
+ * @param {integer} accountId 
+ * @param {array} data 
+ * 
+ * @returns {object}
+ */
+ const createBulkCustomFieldValues = async(accountId, data) => {
+    try {
+        let postData = [];
+
+        data.forEach(item => {
+            if (item.customFieldId && item.fieldValue) {
+                postData.push( { customerAccountId: accountId, ...item } )
+            }
+        });
+
+        const response = await instance.post('/api/3/accountCustomFieldData/bulkCreate', postData);
+
+        if (response && response.status === 200) {
+            return response.data.message;
+        }
+    } catch (err) {
+        throw new ActiveCampaignError(err.response.data.errors);
+    }
+}
+
+/**
  * Get account custom field value by id
  * 
  * @param {integer} id 
  * 
  * @returns {object}
  */
-const getCustomFieldValue = async(id) => {
+const getCustomFieldValueById = async(id) => {
     if (!id) {
         throw new ActiveCampaignError('Account get custom field value error. Validation of required field failed.');
     }
@@ -253,6 +340,23 @@ const getCustomFieldValue = async(id) => {
     }
 };
 
+/**
+ * Get all Account custom field values
+ * 
+ * @returns {object}
+ */
+const getAllCustomFieldvalues = async() => {
+    try {
+        const response = await instance.get('/api/3/accountCustomFieldData');
+
+        if (response && response.status === 200) {
+            return response.data.accountCustomFieldData;
+        }
+    } catch (err) {
+        throw new ActiveCampaignError(err.response.data.errors);
+    }
+}
+
 module.exports = {
     create,
     update,
@@ -263,5 +367,10 @@ module.exports = {
     addContactToAccount,
     createCustomFiled,
     setCustomFieldValue,
-    getCustomFieldValue
+    getCustomFieldValueById,
+    getAllCustomFieldvalues,
+    createBulkCustomFieldValues,
+    getCustomField,
+    getAllCustomFields,
+    destoryCustomFieldById
 }

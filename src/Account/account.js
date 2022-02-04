@@ -2,6 +2,21 @@ const instance = require('../Connection');
 const uri = '/api/3/accounts';
 const ActiveCampaignError = require('../utils/ActiveCampaignError');
 
+class Account {
+    create = async(data) => {
+        try {
+            const response = await instance.post(uri, {
+                'account': data
+            });
+    
+            if (response.data && response.status === 201) {
+                return response.data.account;
+            }
+        } catch (err) {
+            throw new ActiveCampaignError(err.response.data.errors);
+        }
+    }
+}
 /**
  * Create new Account
  * 
@@ -374,3 +389,5 @@ module.exports = {
     getAllCustomFields,
     destoryCustomFieldById
 }
+
+export default new Account();
